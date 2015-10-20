@@ -12,7 +12,11 @@ import android.widget.ArrayAdapter;
 import android.widget.ListAdapter;
 import android.widget.TextView;
 
+import java.util.List;
+
 import br.com.abraao.timesheet.dummy.DummyContent;
+import br.com.abraao.timesheet.entities.Client;
+import br.com.abraao.timesheet.repository.ClientRepository;
 
 /**
  * A fragment representing a list of Items.
@@ -73,9 +77,14 @@ public class ClientListFragment extends Fragment implements AbsListView.OnItemCl
             mParam2 = getArguments().getString(ARG_PARAM2);
         }
 
+        ClientRepository clientRepository = new ClientRepository();
+
+        List<Client> list = clientRepository.getClients();
+
         // TODO: Change Adapter to display your content
-        mAdapter = new ArrayAdapter<DummyContent.DummyItem>(getActivity(),
-                android.R.layout.simple_list_item_1, android.R.id.text1, DummyContent.ITEMS);
+        if(list != null && list.isEmpty()) {
+            mAdapter = new ArrayAdapter<Client>(getActivity(), android.R.layout.simple_list_item_1, android.R.id.text1, list);
+        }
     }
 
     @Override
