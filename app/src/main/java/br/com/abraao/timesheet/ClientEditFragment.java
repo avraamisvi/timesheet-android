@@ -8,6 +8,10 @@ import android.support.v4.app.Fragment;
 import android.view.LayoutInflater;
 import android.view.View;
 import android.view.ViewGroup;
+import android.widget.EditText;
+import android.widget.TextView;
+
+import br.com.abraao.timesheet.entities.Client;
 
 
 /**
@@ -16,27 +20,22 @@ import android.view.ViewGroup;
 public class ClientEditFragment extends Fragment {
     // TODO: Rename parameter arguments, choose names that match
     // the fragment initialization parameters, e.g. ARG_ITEM_NUMBER
-    private static final String ARG_PARAM1 = "param1";
-    private static final String ARG_PARAM2 = "param2";
+    private static final String CLIENT = "client";
 
     // TODO: Rename and change types of parameters
-    private String mParam1;
-    private String mParam2;
+    private Client client;
 
     /**
      * Use this factory method to create a new instance of
      * this fragment using the provided parameters.
      *
-     * @param param1 Parameter 1.
-     * @param param2 Parameter 2.
      * @return A new instance of fragment ClientEditFragment.
      */
     // TODO: Rename and change types and number of parameters
-    public static ClientEditFragment newInstance(String param1, String param2) {
+    public static ClientEditFragment newInstance(Client client) {
         ClientEditFragment fragment = new ClientEditFragment();
         Bundle args = new Bundle();
-        args.putString(ARG_PARAM1, param1);
-        args.putString(ARG_PARAM2, param2);
+        args.putParcelable(CLIENT, client);
         fragment.setArguments(args);
         return fragment;
     }
@@ -49,14 +48,18 @@ public class ClientEditFragment extends Fragment {
     public void onCreate(Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
         if (getArguments() != null) {
-            mParam1 = getArguments().getString(ARG_PARAM1);
-            mParam2 = getArguments().getString(ARG_PARAM2);
+            client = getArguments().getParcelable(CLIENT);
         }
     }
 
     @Override
     public View onCreateView(LayoutInflater inflater, ViewGroup container,
                              Bundle savedInstanceState) {
+
+        /*if(getActivity().getIntent() != null) {
+            Client cli = getActivity().getIntent().getParcelableExtra("client");
+        }*/
+
         // Inflate the layout for this fragment
         return inflater.inflate(R.layout.fragment_client_edit, container, false);
     }
@@ -68,6 +71,20 @@ public class ClientEditFragment extends Fragment {
         }*/
 
 
+    }
+
+    @Override
+    public void onAttach(Context context) {
+        super.onAttach(context);
+
+        if(client != null) {
+            TextView txtName = (TextView) getActivity().findViewById(R.id.txt_name);
+            TextView txtCode = (TextView) getActivity().findViewById(R.id.txt_code);
+
+            txtName.setText(client.name, TextView.BufferType.EDITABLE);
+            txtCode.setText(client.code, TextView.BufferType.EDITABLE);
+
+        }
     }
 
     @Override

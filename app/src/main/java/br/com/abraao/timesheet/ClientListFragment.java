@@ -1,8 +1,11 @@
 package br.com.abraao.timesheet;
 
 import android.app.Activity;
+import android.content.Context;
 import android.os.Bundle;
 import android.support.v4.app.Fragment;
+import android.support.v4.app.FragmentManager;
+import android.support.v4.app.FragmentTransaction;
 import android.view.LayoutInflater;
 import android.view.View;
 import android.view.ViewGroup;
@@ -23,22 +26,21 @@ import br.com.abraao.timesheet.repository.ClientRepository;
  * <p/>
  * Large screen devices (such as tablets) are supported by replacing the ListView
  * with a GridView.
- * <p/>
- * Activities containing this fragment MUST implement the {@link OnFragmentInteractionListener}
- * interface.
  */
-public class ClientListFragment extends Fragment implements AbsListView.OnItemClickListener {
+public class ClientListFragment extends Fragment implements AbsListView.OnItemClickListener, BackPressListerner {
 
     // TODO: Rename parameter arguments, choose names that match
     // the fragment initialization parameters, e.g. ARG_ITEM_NUMBER
     private static final String ARG_PARAM1 = "param1";
     private static final String ARG_PARAM2 = "param2";
 
+    public static final String EDIT_CLIENT = "EDIT_CLIENT";
+
     // TODO: Rename and change types of parameters
     private String mParam1;
     private String mParam2;
 
-    private OnFragmentInteractionListener mListener;
+    private Client client;
 
     /**
      * The fragment's ListView/GridView.
@@ -50,6 +52,8 @@ public class ClientListFragment extends Fragment implements AbsListView.OnItemCl
      * Views.
      */
     private ListAdapter mAdapter;
+    private ViewGroup mContainer;
+    private boolean openEditing = false;
 
     // TODO: Rename and change types of parameters
     public static ClientListFragment newInstance(String param1, String param2) {
@@ -82,7 +86,7 @@ public class ClientListFragment extends Fragment implements AbsListView.OnItemCl
         List<Client> list = clientRepository.getClients();
 
         // TODO: Change Adapter to display your content
-        if(list != null && list.isEmpty()) {
+        if(list != null && !list.isEmpty()) {
             mAdapter = new ArrayAdapter<Client>(getActivity(), android.R.layout.simple_list_item_1, android.R.id.text1, list);
         }
     }
@@ -90,42 +94,67 @@ public class ClientListFragment extends Fragment implements AbsListView.OnItemCl
     @Override
     public View onCreateView(LayoutInflater inflater, ViewGroup container,
                              Bundle savedInstanceState) {
-        View view = inflater.inflate(R.layout.fragment_client, container, false);
 
-        // Set the adapter
-        mListView = (AbsListView) view.findViewById(android.R.id.list);
-        ((AdapterView<ListAdapter>) mListView).setAdapter(mAdapter);
+        View view;
 
-        // Set OnItemClickListener so we can be notified on item clicks
-        mListView.setOnItemClickListener(this);
+        if(this.client == null) {
+            view = inflater.inflate(R.layout.fragment_client, container, false);
+
+            this.mContainer = container;
+            // Set the adapter
+            mListView = (AbsListView) view.findViewById(android.R.id.list);
+            ((AdapterView<ListAdapter>) mListView).setAdapter(mAdapter);
+
+            // Set OnItemClickListener so we can be notified on item clicks
+            mListView.setOnItemClickListener(this);
+
+        } else {
+            view = inflater.inflate(R.layout.fragment_client_edit, container, false);
+            TextView txtName = (TextView) view.findViewById(R.id.txt_name);
+            TextView txtCode = (TextView) view.findViewById(R.id.txt_code);
+
+            txtName.setText(client.name, TextView.BufferType.EDITABLE);
+            txtCode.setText(client.code, TextView.BufferType.EDITABLE);
+        }
 
         return view;
     }
 
     @Override
-    public void onAttach(Activity activity) {
-        super.onAttach(activity);
-        try {
-            mListener = (OnFragmentInteractionListener) activity;
-        } catch (ClassCastException e) {
-            throw new ClassCastException(activity.toString()
-                    + " must implement OnFragmentInteractionListener");
-        }
+    public void onAttach(Context context) {
+        super.onAttach(context);
     }
 
     @Override
     public void onDetach() {
         super.onDetach();
-        mListener = null;
+    }
+
+    @Override
+    public void onDestroyView() {
+        super.onDestroyView();
+
+        if(!this.openEditing) {
+            this.client = null;
+        }
+
+        this.openEditing = false;
     }
 
     @Override
     public void onItemClick(AdapterView<?> parent, View view, int position, long id) {
-        if (null != mListener) {
-            // Notify the active callbacks interface (the activity, if the
-            // fragment is attached to one) that an item has been selected.
-            mListener.onFragmentInteraction(DummyContent.ITEMS.get(position).id);
-        }
+
+        this.client = (Client) parent.getItemAtPosition(position);
+        this.openEditing = true;
+
+        FragmentManager fragmentManager = getFragmentManager();
+        FragmentTransaction fragmentTransaction = fragmentManager.beginTransaction();
+        fragmentTransaction.detach(this);
+        fragmentTransaction.attach(this);
+        fragmentTransaction.setTransition(FragmentTransaction.TRANSIT_FRAGMENT_OPEN);
+        fragmentTransaction.addToBackStack(ClientListFragment.EDIT_CLIENT);
+        fragmentTransaction.commit();
+
     }
 
     /**
@@ -141,19 +170,8 @@ public class ClientListFragment extends Fragment implements AbsListView.OnItemCl
         }
     }
 
-    /**
-     * This interface must be implemented by activities that contain this
-     * fragment to allow an interaction in this fragment to be communicated
-     * to the activity and potentially other fragments contained in that
-     * activity.
-     * <p/>
-     * See the Android Training lesson <a href=
-     * "http://developer.android.com/training/basics/fragments/communicating.html"
-     * >Communicating with Other Fragments</a> for more information.
-     */
-    public interface OnFragmentInteractionListener {
-        // TODO: Update argument type and name
-        public void onFragmentInteraction(String id);
+    @Override
+    public void pressed() {
+        client = null;
     }
-
 }

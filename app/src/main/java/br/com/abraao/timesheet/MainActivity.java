@@ -1,5 +1,6 @@
 package br.com.abraao.timesheet;
 
+import android.content.Intent;
 import android.support.design.widget.TabLayout;
 import android.support.design.widget.FloatingActionButton;
 import android.support.design.widget.Snackbar;
@@ -17,9 +18,12 @@ import android.view.MenuItem;
 import android.view.View;
 import android.view.ViewGroup;
 
+import android.widget.FrameLayout;
 import android.widget.TextView;
 
-public class MainActivity extends AppCompatActivity implements ClientListFragment.OnFragmentInteractionListener{
+import br.com.abraao.timesheet.entities.Client;
+
+public class MainActivity extends AppCompatActivity implements FragmentInteractionListerner {
 
     /**
      * The {@link android.support.v4.view.PagerAdapter} that will provide
@@ -89,8 +93,10 @@ public class MainActivity extends AppCompatActivity implements ClientListFragmen
     }
 
     @Override
-    public void onFragmentInteraction(String id) {
+    public void editClient(Client client) {
 
+        /*FrameLayout clientListView = (FrameLayout) findViewById(R.id.client_list_layout);
+        setContentView(R.layout.fragment_client_edit);*/
     }
 
 
@@ -176,5 +182,11 @@ public class MainActivity extends AppCompatActivity implements ClientListFragmen
             textView.setText(getString(R.string.section_format, getArguments().getInt(ARG_SECTION_NUMBER)));
             return rootView;
         }
+    }
+
+    @Override
+    public void onBackPressed() {
+
+        super.onBackPressed();
     }
 }
