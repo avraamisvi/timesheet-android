@@ -21,7 +21,11 @@ import android.view.ViewGroup;
 import android.widget.FrameLayout;
 import android.widget.TextView;
 
+import java.util.List;
+
 import br.com.abraao.timesheet.entities.Client;
+import br.com.abraao.timesheet.repository.ConnectionPool;
+import br.com.abraao.timesheet.repository.DatabaseConnection;
 
 public class MainActivity extends AppCompatActivity implements FragmentInteractionListerner {
 
@@ -58,15 +62,7 @@ public class MainActivity extends AppCompatActivity implements FragmentInteracti
         TabLayout tabLayout = (TabLayout) findViewById(R.id.tabs);
         tabLayout.setupWithViewPager(mViewPager);
 
-       /* FloatingActionButton fab = (FloatingActionButton) findViewById(R.id.fab);
-        fab.setOnClickListener(new View.OnClickListener() {
-            @Override
-            public void onClick(View view) {
-                Snackbar.make(view, "Replace with your own action", Snackbar.LENGTH_LONG)
-                        .setAction("Action", null).show();
-            }
-        });*/
-
+        ConnectionPool.instance.connect(getApplicationContext());
     }
 
 
@@ -137,11 +133,11 @@ public class MainActivity extends AppCompatActivity implements FragmentInteracti
         public CharSequence getPageTitle(int position) {
             switch (position) {
                 case 0:
-                    return "SECTION 1";
+                    return "Check out/in";
                 case 1:
-                    return "SECTION 2";
+                    return "Report";
                 case 2:
-                    return "SECTION 3";
+                    return "Tasks";
                 case 3:
                     return "Clients";
             }
@@ -187,6 +183,15 @@ public class MainActivity extends AppCompatActivity implements FragmentInteracti
     @Override
     public void onBackPressed() {
 
-        super.onBackPressed();
+        List<Fragment> fragmentList = getSupportFragmentManager().getFragments();
+
+        for (Fragment fr : fragmentList) {
+
+            if(fr.isVisible() && fr instanceof BackPressListerner) {
+                ((BackPressListerner)fr).backPressed();
+            }
+        }
+
+//        super.onBackPressed();
     }
 }

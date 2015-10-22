@@ -11,14 +11,13 @@ import java.util.Map;
 /**
  * Created by abraao on 10/20/15.
  */
-public class Client implements Parcelable{
+public class Client extends AbstractEntity {
 
-    public String id;
     public String name;
     public String code;
 
-    public Client(String id, String name, String code) {
-        this.id = id;
+    public Client(long id, String name, String code) {
+
         this.name = name;
         this.code = code;
     }
@@ -35,7 +34,7 @@ public class Client implements Parcelable{
 
     @Override
     public void writeToParcel(Parcel dest, int flags) {
-        dest.writeString(id);
+        super.writeToParcel(dest, flags);
         dest.writeString(name);
         dest.writeString(code);
     }
@@ -52,7 +51,7 @@ public class Client implements Parcelable{
     };
 
     private Client(Parcel in) {
-        id   = in.readString();
+        super(in);
         name = in.readString();
         code = in.readString();
     }

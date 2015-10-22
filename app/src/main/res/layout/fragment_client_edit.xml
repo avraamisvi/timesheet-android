@@ -5,7 +5,6 @@
     android:tag="client_edit_tag"
     >
 
-
     <LinearLayout
         android:orientation="vertical"
         android:layout_width="match_parent"
@@ -22,7 +21,9 @@
             android:layout_marginLeft="16dp"
             android:layout_marginTop="16dp"
             android:layout_marginRight="16dp"
-            android:layout_marginBottom="6dp" />
+            android:layout_marginBottom="6dp"
+            android:layout_gravity="start"
+            />
 
         <EditText
             android:layout_width="353dp"
@@ -67,8 +68,8 @@
         />
 
     <ImageButton
-        android:layout_width="65dp"
-        android:layout_height="65dp"
+        android:layout_width="64dp"
+        android:layout_height="64dp"
         android:id="@+id/btn_remove_client"
         android:background="@drawable/warnbtn"
         android:elevation="10dp"
@@ -78,4 +79,5 @@
         android:layout_gravity="start|bottom"
         android:src="@android:drawable/ic_menu_delete"
         />
+
 </FrameLayout>

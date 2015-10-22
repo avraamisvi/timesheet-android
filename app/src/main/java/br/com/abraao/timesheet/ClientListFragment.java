@@ -3,6 +3,7 @@ package br.com.abraao.timesheet;
 import android.app.Activity;
 import android.content.Context;
 import android.os.Bundle;
+import android.support.design.widget.FloatingActionButton;
 import android.support.v4.app.Fragment;
 import android.support.v4.app.FragmentManager;
 import android.support.v4.app.FragmentTransaction;
@@ -12,6 +13,7 @@ import android.view.ViewGroup;
 import android.widget.AbsListView;
 import android.widget.AdapterView;
 import android.widget.ArrayAdapter;
+import android.widget.ImageButton;
 import android.widget.ListAdapter;
 import android.widget.TextView;
 
@@ -104,9 +106,17 @@ public class ClientListFragment extends Fragment implements AbsListView.OnItemCl
             // Set the adapter
             mListView = (AbsListView) view.findViewById(android.R.id.list);
             ((AdapterView<ListAdapter>) mListView).setAdapter(mAdapter);
+            FloatingActionButton btnAddClient = (FloatingActionButton) view.findViewById(R.id.btn_add_client);
 
             // Set OnItemClickListener so we can be notified on item clicks
             mListView.setOnItemClickListener(this);
+            btnAddClient.setOnClickListener(new View.OnClickListener() {
+                @Override
+                public void onClick(View v) {
+                    ClientListFragment.this.onAddClientClick(v);
+                }
+            });
+
 
         } else {
             view = inflater.inflate(R.layout.fragment_client_edit, container, false);
@@ -115,6 +125,11 @@ public class ClientListFragment extends Fragment implements AbsListView.OnItemCl
 
             txtName.setText(client.name, TextView.BufferType.EDITABLE);
             txtCode.setText(client.code, TextView.BufferType.EDITABLE);
+
+            if(client.id == null || client.id.isEmpty()) {
+                ImageButton btnRemove = (ImageButton) view.findViewById(R.id.btn_remove_client);
+                btnRemove.setVisibility(View.INVISIBLE);
+            }
         }
 
         return view;
@@ -134,27 +149,26 @@ public class ClientListFragment extends Fragment implements AbsListView.OnItemCl
     public void onDestroyView() {
         super.onDestroyView();
 
-        if(!this.openEditing) {
+        /*if(!this.openEditing) {
             this.client = null;
         }
 
-        this.openEditing = false;
+        this.openEditing = false;*/
     }
 
     @Override
     public void onItemClick(AdapterView<?> parent, View view, int position, long id) {
 
         this.client = (Client) parent.getItemAtPosition(position);
-        this.openEditing = true;
+        //this.openEditing = true;
 
-        FragmentManager fragmentManager = getFragmentManager();
-        FragmentTransaction fragmentTransaction = fragmentManager.beginTransaction();
-        fragmentTransaction.detach(this);
-        fragmentTransaction.attach(this);
-        fragmentTransaction.setTransition(FragmentTransaction.TRANSIT_FRAGMENT_OPEN);
-        fragmentTransaction.addToBackStack(ClientListFragment.EDIT_CLIENT);
-        fragmentTransaction.commit();
+        this.refreshView();
 
+    }
+
+    public void onAddClientClick(View v) {
+        this.client = new Client("","New Client","New Code");
+        this.refreshView();
     }
 
     /**
@@ -171,7 +185,19 @@ public class ClientListFragment extends Fragment implements AbsListView.OnItemCl
     }
 
     @Override
-    public void pressed() {
+    public void backPressed() {
         client = null;
+
+        this.refreshView();
+    }
+
+    private void refreshView() {
+        FragmentManager fragmentManager = getFragmentManager();
+        FragmentTransaction fragmentTransaction = fragmentManager.beginTransaction();
+        fragmentTransaction.detach(this);
+        fragmentTransaction.attach(this);
+        fragmentTransaction.setTransition(FragmentTransaction.TRANSIT_FRAGMENT_OPEN);
+        //fragmentTransaction.addToBackStack(ClientListFragment.EDIT_CLIENT);
+        fragmentTransaction.commit();
     }
 }
