@@ -13,9 +13,9 @@ import br.com.abraao.timesheet.entities.Client;
 /**
  * Created by abraao on 10/20/15.
  */
-public class ClientRepository extends Repository<Client>{
+public class ClientRepository {// extends Repository<Client>{
 
-    public static final String NAME = "name";
+    /*public static final String NAME = "name";
     public static final String CODE = "code";
     public static final String CLIENTE = "cliente";
 
@@ -34,54 +34,4 @@ public class ClientRepository extends Repository<Client>{
 
         return ITEMS;
     }*/
-
-    @Override
-    public String getSelection() {
-        return null;
-    }
-
-    @Override
-    public String[] getSelectionParams() {
-        return new String[0];
-    }
-
-    @Override
-    public String getTableName() {
-        return null;
-    }
-
-    @Override
-    public ContentValues getSaveValues(Client entity) {
-        return null;
-    }
-
-    @Override
-    public ContentValues getUpdateValues(Client entity) {
-        return null;
-    }
-
-    @Override
-    public String getUpdateClause(Client entity) {
-        return null;
-    }
-
-    @Override
-    public String[] getUpdateParams(Client entity) {
-        return new String[0];
-    }
-
-    @Override
-    public String getDeleteClause(Client entity) {
-        return null;
-    }
-
-    @Override
-    public String[] getDeleteParams(Client entity) {
-        return new String[0];
-    }
-
-    @Override
-    public Client processEntity(Cursor cursor) {
-        return null;
-    }
 }

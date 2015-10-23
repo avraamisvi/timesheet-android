@@ -7,9 +7,9 @@ import android.database.sqlite.SQLiteOpenHelper;
 /**
  * Created by abraao on 10/22/15.
  */
-public class DatabaseConnection extends SQLiteOpenHelper {
+public class DatabaseConnection {//extends SQLiteOpenHelper {
 
-    private static final int DATABASE_VERSION = 1;
+    /*private static final int DATABASE_VERSION = 1;
     private static final String DATABASE_NAME = "alpar_time_sheet";
 
     public DatabaseConnection(Context context) {
@@ -18,11 +18,11 @@ public class DatabaseConnection extends SQLiteOpenHelper {
 
     @Override
     public void onCreate(SQLiteDatabase db) {
-        ClientRepository.create(db);
+        //ClientRepository.create(db);
     }
 
     @Override
     public void onUpgrade(SQLiteDatabase db, int oldVersion, int newVersion) {
 
-    }
+    }*/
 }

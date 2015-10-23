@@ -6,7 +6,9 @@ import android.os.Parcelable;
 /**
  * Created by abraao on 10/22/15.
  */
-public abstract class AbstractEntity implements Parcelable {
+public class AbstractEntity {
+    public String nada;
+/* implements Parcelable {
 
     public long rowId;
 
@@ -28,5 +30,5 @@ public abstract class AbstractEntity implements Parcelable {
 
     public void writeToParcel(Parcel dest, int flags) {
         dest.writeLong(rowId);
-    }
+    }*/
 }

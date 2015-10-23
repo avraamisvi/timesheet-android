@@ -11,7 +11,7 @@ import br.com.abraao.timesheet.entities.AbstractEntity;
  */
 public abstract class Repository<T extends AbstractEntity> {
 
-    public static final String KEY_ID = "ID";
+   /* public static final String KEY_ID = "ID";
 
     public T save(T entity) {
 
@@ -42,8 +42,17 @@ public abstract class Repository<T extends AbstractEntity> {
     public RepositoryCursor<T> list() {
         SQLiteDatabase db = ConnectionPool.instance.getConnection().getReadableDatabase();
 
-        //db.query (getTableName(), getColumnsName(), getSelectClause(), getSelectParams(), getGroupBy(), getHaving(), getOrderBy(), getLimit());
         Cursor cursor = db.rawQuery(getSelection(), getSelectionParams());
+        if(cursor != null)
+            cursor.moveToFirst();
+
+        return new RepositoryCursor<T>(this, cursor);
+    }
+
+    public RepositoryCursor<T> all() {
+        SQLiteDatabase db = ConnectionPool.instance.getConnection().getReadableDatabase();
+
+        Cursor cursor = db.rawQuery("select * from " + getTableName(), null);
         if(cursor != null)
             cursor.moveToFirst();
 
@@ -88,5 +97,5 @@ public abstract class Repository<T extends AbstractEntity> {
             cursor.moveToNext();
             return repo.processEntity(cursor);
         }
-    }
+    }*/
 }

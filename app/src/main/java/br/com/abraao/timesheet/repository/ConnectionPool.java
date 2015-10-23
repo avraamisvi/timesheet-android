@@ -7,7 +7,7 @@ import android.content.Context;
  */
 public class ConnectionPool {
 
-    public final static ConnectionPool instance = new ConnectionPool();
+/*    public final static ConnectionPool instance = new ConnectionPool();
 
     private DatabaseConnection connection;
 
@@ -21,5 +21,5 @@ public class ConnectionPool {
 
     public DatabaseConnection getConnection() {
         return connection;
-    }
+    }*/
 }

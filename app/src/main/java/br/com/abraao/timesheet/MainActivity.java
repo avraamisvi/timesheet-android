@@ -21,6 +21,8 @@ import android.view.ViewGroup;
 import android.widget.FrameLayout;
 import android.widget.TextView;
 
+import com.activeandroid.ActiveAndroid;
+
 import java.util.List;
 
 import br.com.abraao.timesheet.entities.Client;
@@ -62,7 +64,8 @@ public class MainActivity extends AppCompatActivity implements FragmentInteracti
         TabLayout tabLayout = (TabLayout) findViewById(R.id.tabs);
         tabLayout.setupWithViewPager(mViewPager);
 
-        ConnectionPool.instance.connect(getApplicationContext());
+       // ConnectionPool.instance.connect(getApplicationContext());
+        ActiveAndroid.initialize(this);
     }
 
 
@@ -115,7 +118,7 @@ public class MainActivity extends AppCompatActivity implements FragmentInteracti
                 case 1:
                     return PlaceholderFragment.newInstance(position + 1);
                 case 2:
-                    return PlaceholderFragment.newInstance(position + 1);
+                    return TaskFragment.newInstance();
                 case 3:
                     return ClientListFragment.newInstance("","");
             }

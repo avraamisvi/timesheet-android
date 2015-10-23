@@ -21,6 +21,12 @@
                 <category android:name="android.intent.category.LAUNCHER" />
             </intent-filter>
         </activity>
+
+        <meta-data android:name="AA_DB_NAME" android:value="alpar_timesheet_database.db" />
+        <meta-data android:name="AA_DB_VERSION" android:value="1" />
+        <meta-data android:name="AA_MODELS"
+            android:value="br.com.abraao.timesheet.entities.Client, br.com.abraao.timesheet.entities.Task, br.com.abraao.timesheet.entities.Entry" />
+
     </application>
 
 </manifest>

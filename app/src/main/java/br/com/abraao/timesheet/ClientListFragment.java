@@ -1,7 +1,9 @@
 package br.com.abraao.timesheet;
 
 import android.app.Activity;
+import android.app.AlertDialog;
 import android.content.Context;
+import android.content.DialogInterface;
 import android.os.Bundle;
 import android.support.design.widget.FloatingActionButton;
 import android.support.v4.app.Fragment;
@@ -16,6 +18,8 @@ import android.widget.ArrayAdapter;
 import android.widget.ImageButton;
 import android.widget.ListAdapter;
 import android.widget.TextView;
+
+import com.activeandroid.query.Select;
 
 import java.util.List;
 
@@ -83,14 +87,6 @@ public class ClientListFragment extends Fragment implements AbsListView.OnItemCl
             mParam2 = getArguments().getString(ARG_PARAM2);
         }
 
-        ClientRepository clientRepository = new ClientRepository();
-
-        List<Client> list = clientRepository.getClients();
-
-        // TODO: Change Adapter to display your content
-        if(list != null && !list.isEmpty()) {
-            mAdapter = new ArrayAdapter<Client>(getActivity(), android.R.layout.simple_list_item_1, android.R.id.text1, list);
-        }
     }
 
     @Override
@@ -101,6 +97,12 @@ public class ClientListFragment extends Fragment implements AbsListView.OnItemCl
 
         if(this.client == null) {
             view = inflater.inflate(R.layout.fragment_client, container, false);
+
+            List<Client> list = new Select().from(Client.class).execute();
+
+            if(list != null && !list.isEmpty()) {
+                mAdapter = new ArrayAdapter<Client>(getActivity(), android.R.layout.simple_list_item_1, android.R.id.text1, list);
+            }
 
             this.mContainer = container;
             // Set the adapter
@@ -120,16 +122,46 @@ public class ClientListFragment extends Fragment implements AbsListView.OnItemCl
 
         } else {
             view = inflater.inflate(R.layout.fragment_client_edit, container, false);
-            TextView txtName = (TextView) view.findViewById(R.id.txt_name);
-            TextView txtCode = (TextView) view.findViewById(R.id.txt_code);
+            final TextView txtName = (TextView) view.findViewById(R.id.txt_name);
+            final TextView txtCode = (TextView) view.findViewById(R.id.txt_code);
 
             txtName.setText(client.name, TextView.BufferType.EDITABLE);
             txtCode.setText(client.code, TextView.BufferType.EDITABLE);
 
-            if(client.id == null || client.id.isEmpty()) {
+            if(client.code == null || client.code.isEmpty()) {
                 ImageButton btnRemove = (ImageButton) view.findViewById(R.id.btn_remove_client);
                 btnRemove.setVisibility(View.INVISIBLE);
+            } else {
+                ImageButton btnRemove = (ImageButton) view.findViewById(R.id.btn_remove_client);
+                btnRemove.setOnClickListener(new View.OnClickListener() {
+                    @Override
+                    public void onClick(View v) {
+                        AlertDialog.Builder dialog = new AlertDialog.Builder(getActivity());
+                        dialog.setMessage("Are you sure you want to delete this client?");
+                        dialog.setTitle("Delete Client");
+                        dialog.setIcon(android.R.drawable.ic_dialog_alert);
+                        dialog.setPositiveButton("OK", new DialogInterface.OnClickListener() {
+                            public void onClick(DialogInterface dialog, int which) {
+                                client.delete();
+                                backPressed();
+                            }
+                        });
+                        dialog.setCancelable(true);
+                        dialog.create().show();
+                    }
+                });
             }
+
+            ImageButton btnSave = (ImageButton) view.findViewById(R.id.btn_save_client);
+            btnSave.setOnClickListener(new View.OnClickListener() {
+                @Override
+                public void onClick(View v) {
+                    client.name = txtName.getText().toString();
+                    client.code = txtCode.getText().toString();
+                    client.save();
+                    backPressed();
+                }
+            });
         }
 
         return view;
@@ -161,13 +193,12 @@ public class ClientListFragment extends Fragment implements AbsListView.OnItemCl
 
         this.client = (Client) parent.getItemAtPosition(position);
         //this.openEditing = true;
-
         this.refreshView();
 
     }
 
     public void onAddClientClick(View v) {
-        this.client = new Client("","New Client","New Code");
+        this.client = new Client("","");
         this.refreshView();
     }
 
