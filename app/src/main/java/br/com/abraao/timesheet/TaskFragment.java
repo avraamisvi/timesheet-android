@@ -156,15 +156,16 @@ public class TaskFragment extends Fragment implements AbsListView.OnItemClickLis
 
                 if(list != null && !list.isEmpty()) {
                     mAdapter = new ArrayAdapter<Task>(getActivity(), android.R.layout.simple_list_item_1, android.R.id.text1, list);
+
+                    mListView = (AbsListView) view.findViewById(R.id.list_task);
+                    ((AdapterView<ListAdapter>) mListView).setAdapter(mAdapter);
+                    mListView.setOnItemClickListener(this);
                 }
 
                 this.mContainer = container;
-                // Set the adapter
-                mListView = (AbsListView) view.findViewById(R.id.list_task);
-                ((AdapterView<ListAdapter>) mListView).setAdapter(mAdapter);
+
                 FloatingActionButton btnAddClient = (FloatingActionButton) view.findViewById(R.id.btn_add_task);
 
-                mListView.setOnItemClickListener(this);
                 btnAddClient.setOnClickListener(new View.OnClickListener() {
                     @Override
                     public void onClick(View v) {
