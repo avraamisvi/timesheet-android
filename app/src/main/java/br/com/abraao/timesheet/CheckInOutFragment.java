@@ -199,12 +199,12 @@ public class CheckInOutFragment extends Fragment implements AbsListView.OnItemCl
             if(entry == null)
                 entry = new Entry();
 
-            if(entry.endHour >= 0 && convertView == null) {
+            if(entry.endHour != null && entry.endHour >= 0 && convertView == null) {
                 viewLocal = 1;
                 convertView = LayoutInflater.from(getContext()).inflate(R.layout.entry_layout, parent, false);
             } else {
 
-                if(viewLocal == 1) {
+                if(viewLocal == 1 && entry.startHour >= 0) {
                     viewLocal = 2;
                     convertView = LayoutInflater.from(getContext()).inflate(R.layout.entry_layout_blue, parent, false);
                 }
