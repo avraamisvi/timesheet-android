@@ -1,6 +1,5 @@
 package br.com.abraao.timesheet;
 
-import android.app.Activity;
 import android.app.AlertDialog;
 import android.content.Context;
 import android.content.DialogInterface;
@@ -23,9 +22,7 @@ import com.activeandroid.query.Select;
 
 import java.util.List;
 
-import br.com.abraao.timesheet.dummy.DummyContent;
 import br.com.abraao.timesheet.entities.Client;
-import br.com.abraao.timesheet.repository.ClientRepository;
 
 /**
  * A fragment representing a list of Items.

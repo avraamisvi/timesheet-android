@@ -143,9 +143,10 @@ public class TaskFragment extends Fragment implements AbsListView.OnItemClickLis
                 btnSave.setOnClickListener(new View.OnClickListener() {
                     @Override
                     public void onClick(View v) {
-                        client.name = txtName.getText().toString();
-                        client.code = txtCode.getText().toString();
-                        client.save();
+                        task.name = txtName.getText().toString();
+                        task.code = txtCode.getText().toString();
+                        task.client = client;
+                        task.save();
                         backPressed();
                     }
                 });

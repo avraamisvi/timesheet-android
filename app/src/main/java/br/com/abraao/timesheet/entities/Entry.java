@@ -24,15 +24,24 @@ public class Entry extends Model {
     @Column(name = "startHour")
     public Integer startHour;
 
-    @Column(name = "startminute")
-    public Integer startminute;
+    @Column(name = "startMinute")
+    public Integer startMinute;
 
     @Column(name = "endHour")
     public Integer endHour;
 
-    @Column(name = "endminute")
-    public Integer endminute;
+    @Column(name = "endMinute")
+    public Integer endMinute;
 
     @Column(name = "date")
-    public Date date;
+    public long date;
+
+    @Column(name = "day")
+    public long day;
+
+    @Column(name = "month")
+    public long month;
+
+    @Column(name = "year")
+    public long year;
 }

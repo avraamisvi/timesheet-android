@@ -1,0 +1,105 @@
+<?xml version="1.0" encoding="utf-8"?>
+<FrameLayout xmlns:android="http://schemas.android.com/apk/res/android"
+    xmlns:tools="http://schemas.android.com/tools" android:layout_width="match_parent"
+    android:layout_height="match_parent" tools:context="br.com.abraao.timesheet.CheckInOutFragment">
+
+    <LinearLayout
+        android:orientation="vertical"
+        android:layout_width="match_parent"
+        android:layout_height="fill_parent"
+        android:measureWithLargestChild="false">
+
+        <LinearLayout
+            android:orientation="horizontal"
+            android:layout_width="match_parent"
+            android:layout_height="wrap_content"
+            android:measureWithLargestChild="false"
+            android:layout_weight="1"
+            android:layout_gravity="top"
+            >
+
+            <TextView
+                android:layout_width="wrap_content"
+                android:layout_height="wrap_content"
+                android:textAppearance="?android:attr/textAppearanceMedium"
+                android:text="Begin"
+                android:id="@+id/label_begin"
+                android:layout_weight="1"
+                android:paddingLeft="10dp"
+                android:paddingRight="10dp"
+                android:textAlignment="center"
+                android:textColor="#000"
+                android:textStyle="bold"
+                />
+
+            <TextView
+                android:layout_width="wrap_content"
+                android:layout_height="wrap_content"
+                android:textAppearance="?android:attr/textAppearanceMedium"
+                android:text="End"
+                android:id="@+id/label_end"
+                android:layout_weight="1"
+                android:paddingRight="10dp"
+                android:textAlignment="center"
+                android:textColor="#000"
+                android:textStyle="bold"
+                />
+
+            <TextView
+                android:layout_width="wrap_content"
+                android:layout_height="wrap_content"
+                android:textAppearance="?android:attr/textAppearanceMedium"
+                android:text="Total"
+                android:id="@+id/label_total"
+                android:gravity="end"
+                android:layout_weight="1"
+                android:paddingRight="10dp"
+                android:textAlignment="center"
+                android:textColor="#000"
+                android:textStyle="bold"
+                />
+
+            <TextView
+                android:layout_width="wrap_content"
+                android:layout_height="wrap_content"
+                android:textAppearance="?android:attr/textAppearanceMedium"
+                android:text="Task"
+                android:id="@+id/label_task"
+                android:layout_weight="2"
+                android:paddingEnd="10dp"
+                android:paddingRight="10dp"
+                android:textAlignment="center"
+                android:textColor="#000"
+                android:textStyle="bold"
+                />
+        </LinearLayout>
+
+        <ListView android:id="@+id/entries_list"
+            android:layout_width="match_parent"
+            android:layout_height="wrap_content"
+            android:layout_weight="16"
+            android:layout_gravity="bottom"
+            />
+
+    </LinearLayout>
+
+    <TextView android:id="@android:id/empty" android:layout_width="match_parent"
+        android:layout_height="match_parent" android:gravity="center" />
+
+    <android.support.design.widget.FloatingActionButton android:id="@+id/btn_checkout"
+        android:layout_width="wrap_content" android:layout_height="wrap_content"
+        android:layout_gravity="end|bottom"
+        android:layout_marginBottom="64dp"
+        android:layout_marginEnd="16dp"
+        android:layout_marginRight="16dp"
+        android:src="@android:drawable/ic_media_pause" />
+
+    <android.support.design.widget.FloatingActionButton android:id="@+id/btn_checkin"
+        android:layout_width="wrap_content" android:layout_height="wrap_content"
+        android:layout_gravity="start|bottom"
+        android:layout_marginBottom="64dp"
+        android:layout_marginStart="16dp"
+        android:layout_marginLeft="16dp"
+        android:src="@android:drawable/ic_media_play" />
+
+</FrameLayout>

@@ -1,9 +1,6 @@
 package br.com.abraao.timesheet;
 
-import android.content.Intent;
 import android.support.design.widget.TabLayout;
-import android.support.design.widget.FloatingActionButton;
-import android.support.design.widget.Snackbar;
 import android.support.v7.app.AppCompatActivity;
 import android.support.v7.widget.Toolbar;
 
@@ -18,7 +15,6 @@ import android.view.MenuItem;
 import android.view.View;
 import android.view.ViewGroup;
 
-import android.widget.FrameLayout;
 import android.widget.TextView;
 
 import com.activeandroid.ActiveAndroid;
@@ -26,8 +22,6 @@ import com.activeandroid.ActiveAndroid;
 import java.util.List;
 
 import br.com.abraao.timesheet.entities.Client;
-import br.com.abraao.timesheet.repository.ConnectionPool;
-import br.com.abraao.timesheet.repository.DatabaseConnection;
 
 public class MainActivity extends AppCompatActivity implements FragmentInteractionListerner {
 
@@ -64,7 +58,7 @@ public class MainActivity extends AppCompatActivity implements FragmentInteracti
         TabLayout tabLayout = (TabLayout) findViewById(R.id.tabs);
         tabLayout.setupWithViewPager(mViewPager);
 
-       // ConnectionPool.instance.connect(getApplicationContext());
+
         ActiveAndroid.initialize(this);
     }
 
@@ -114,7 +108,7 @@ public class MainActivity extends AppCompatActivity implements FragmentInteracti
 
             switch (position) {
                 case 0:
-                    return PlaceholderFragment.newInstance(position + 1);
+                    return CheckInOutFragment.newInstance();
                 case 1:
                     return PlaceholderFragment.newInstance(position + 1);
                 case 2:
