@@ -200,13 +200,17 @@ public class CheckInOutFragment extends Fragment implements AbsListView.OnItemCl
                 entry = new Entry();
 
             if(entry.endHour != null && entry.endHour >= 0 && convertView == null) {
-                viewLocal = 1;
-                convertView = LayoutInflater.from(getContext()).inflate(R.layout.entry_layout, parent, false);
+                if(viewLocal != 1) {
+                    viewLocal = 1;
+                    convertView = LayoutInflater.from(getContext()).inflate(R.layout.entry_layout, parent, false);
+                }
             } else {
 
-                if(viewLocal == 1 && entry.startHour >= 0) {
-                    viewLocal = 2;
-                    convertView = LayoutInflater.from(getContext()).inflate(R.layout.entry_layout_blue, parent, false);
+                if(entry.startHour >= 0 && entry.endHour != null && entry.endHour < 0) {
+                    if(viewLocal != 2) {
+                        viewLocal = 2;
+                        convertView = LayoutInflater.from(getContext()).inflate(R.layout.entry_layout_blue, parent, false);
+                    }
                 }
             }
 
@@ -215,7 +219,7 @@ public class CheckInOutFragment extends Fragment implements AbsListView.OnItemCl
                 convertView = LayoutInflater.from(getContext()).inflate(R.layout.entry_total_layout, parent, false);
             }
 
-            if(entry.startHour >= 0) {
+            if(viewLocal < 3) {//entry.startHour >= 0
                 // Lookup view for data population
                 TextView txtBegin = (TextView) convertView.findViewById(R.id.txt_begin);
                 TextView txtEnd = (TextView) convertView.findViewById(R.id.txt_end);
